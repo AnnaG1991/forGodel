@@ -1,5 +1,6 @@
-package com.godeltech.gorodetskaya.task.exception_handing;
+package com.godeltech.gorodetskaya.task.exception_handling;
 
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -13,5 +14,12 @@ public class EntityExceptionHandler {
         EntityIncorrectData data = new EntityIncorrectData();
         data.setInfo(exception.getMessage());
         return new ResponseEntity<>(data, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<EntityIncorrectData> handleException(InvalidFormatException exception) {
+        EntityIncorrectData data = new EntityIncorrectData();
+        data.setInfo("Choose MALE, FEMALE OR UNDEFINED as gender of the author");
+        return new ResponseEntity<>(data, HttpStatus.BAD_REQUEST);
     }
 }

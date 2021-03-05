@@ -1,5 +1,7 @@
 package com.godeltech.gorodetskaya.task.entity;
 
+import com.godeltech.gorodetskaya.task.entity.enums.Gender;
+
 public class Author {
 
 
@@ -11,7 +13,7 @@ public class Author {
 
     private String dateOfBirth;
 
-    private String sex; // нужно сделать енам??
+    private Gender gender; // нужно сделать енам??
 
     public Author() {
     }
@@ -47,11 +49,11 @@ public class Author {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public String getSex() {
-        return sex;
+    public Gender getGender() {
+        return gender;
     }
 
-    public void setSex(String sex) {
-        this.sex = sex;
+    public void setGender(Gender gender) {
+        this.gender = gender;
     }
 }

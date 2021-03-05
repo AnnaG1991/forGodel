@@ -8,4 +8,5 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @ComponentScan("com.godeltech.gorodetskaya.task")
 @EnableWebMvc
 public class Config {
+
 }

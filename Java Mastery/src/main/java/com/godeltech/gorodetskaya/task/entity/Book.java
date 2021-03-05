@@ -1,13 +1,19 @@
 package com.godeltech.gorodetskaya.task.entity;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 public class Book {
     public Book() {
     }
 
     private int id;
 
+    @NotBlank(message = "Please, enter the title of the book")
     private String title;
 
+    @Max (value = 2021, message = "Please, enter the right year of publication")
     private String yearOfPublication;
 
     private Author author;
@@ -21,6 +27,7 @@ public class Book {
     public void setId(int id) {
         this.id = id;
     }
+
     public String getTitle() {
         return title;
     }

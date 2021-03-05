@@ -1,6 +1,7 @@
-package com.godeltech.gorodetskaya.task.dao;
+package com.godeltech.gorodetskaya.task.dao.impl;
 
 import com.godeltech.gorodetskaya.task.config.DatabaseConnector;
+import com.godeltech.gorodetskaya.task.dao.api.Dao;
 import com.godeltech.gorodetskaya.task.entity.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -11,12 +12,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class BookDao {
+public class BookDaoImpl implements Dao<Book> {
 
     @Autowired
     DatabaseConnector connector;
 
-    public List<Book> getAllBooks() {
+    @Override
+    public List<Book> getAllItems() {
         List<Book> catalog = new ArrayList<>();
         try (Connection connection = connector.getConnection();
              Statement statement = connection.createStatement()) {
@@ -34,7 +36,8 @@ public class BookDao {
         return catalog;
     }
 
-    public Optional<Book> getBookById(int id) {
+    @Override
+    public Optional<Book> getItemById(int id) {
         Book book = null;
         try (Connection connection = connector.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("SELECT TITLE, YEAR_OF_PUBLICATION FROM BOOK WHERE ID=?")) {
@@ -52,7 +55,8 @@ public class BookDao {
         return Optional.ofNullable(book);
     }
 
-    public Book addBook(Book book) {
+    @Override
+    public Book addItem(Book book) {
         try (Connection connection = connector.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO BOOK (TITLE, YEAR_OF_PUBLICATION) VALUES (?, ?)");
              PreparedStatement preparedStatementSelect = connection.prepareStatement("SELECT ID FROM BOOK WHERE TITLE=?")) {
@@ -62,7 +66,7 @@ public class BookDao {
             preparedStatementSelect.setString(1, book.getTitle());
             ResultSet resultSet = preparedStatementSelect.executeQuery();
             while (resultSet.next()) {
-               book.setId(resultSet.getInt("ID"));
+                book.setId(resultSet.getInt("ID"));
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -70,7 +74,8 @@ public class BookDao {
         return book;
     }
 
-    public Book updateBook(Book book) {
+    @Override
+    public Book updateItem(Book book) {
         try (Connection connection = connector.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("UPDATE BOOK SET TITLE=?, YEAR_OF_PUBLICATION=? WHERE ID=?");
              PreparedStatement preparedStatementSelect = connection.prepareStatement("SELECT TITLE, YEAR_OF_PUBLICATION FROM BOOK WHERE ID=?")) {
@@ -90,9 +95,10 @@ public class BookDao {
         return book;
     }
 
-    public void deleteBook(int id) {
+    @Override
+    public void deleteItem(int id) {
         try (Connection connection = connector.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("DELETE BOOK WHERE ID=?")){
+             PreparedStatement preparedStatement = connection.prepareStatement("DELETE BOOK WHERE ID=?")) {
             preparedStatement.setInt(1, id);
             preparedStatement.execute();
         } catch (SQLException throwables) {
@@ -100,4 +106,13 @@ public class BookDao {
         }
     }
 
+    public void deleteBooksByAuthorId(int id) {
+        try (Connection connection = connector.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement("DELETE BOOK WHERE AUTHOR_ID=?")) {
+            preparedStatement.setInt(1, id);
+            preparedStatement.execute();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
 }

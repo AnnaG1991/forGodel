@@ -1,4 +1,4 @@
-package com.godeltech.gorodetskaya.task.exception_handing;
+package com.godeltech.gorodetskaya.task.exception_handling;
 
 public class EntityIncorrectData {
 

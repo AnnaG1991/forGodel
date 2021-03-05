@@ -1,7 +1,8 @@
 package com.godeltech.gorodetskaya.task.controllers;
 
-import com.godeltech.gorodetskaya.task.entity.Book;
+import com.godeltech.gorodetskaya.task.entity.Author;
 import com.godeltech.gorodetskaya.task.services.api.Service;
+;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.validation.BindingResult;
@@ -13,24 +14,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-public class BookController {
+public class AuthorController {
 
     @Autowired
-    @Qualifier("bookServiceImpl")
-    private Service<Book> service;
+    @Qualifier("authorServiceImpl")
+    private Service<Author> service;
 
-    @GetMapping("/books")
-    public List<Book> getAllBooks() {
+    @GetMapping("/authors")
+    public List<Author> getAllAuthors() {
         return service.getAllItems();
     }
 
-    @GetMapping("/books/{id}")
-    public Book getBookById(@PathVariable int id) {
+    @GetMapping("/authors/{id}")
+    public Author getAuthorById(@PathVariable int id) {
         return service.getItemById(id);
     }
 
-    @PostMapping("/books")
-    public Object addBook(@RequestBody @Valid Book book, BindingResult bindingResult) {
+    @PostMapping("/authors")
+    public Object addAuthor(@RequestBody @Valid Author author, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             List<FieldError> errors = bindingResult.getFieldErrors();
             List<String> message = new ArrayList<>();
@@ -39,13 +40,13 @@ public class BookController {
             }
             return message;
         } else {
-            service.addItem(book);
-            return book;
+            service.addItem(author);
+            return author;
         }
     }
 
-    @PutMapping("/books")
-    public Object updateBook(@RequestBody @Valid Book book, BindingResult bindingResult) {
+    @PutMapping("/authors")
+    public Object updateAuthor(@RequestBody @Valid Author author, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             List<FieldError> errors = bindingResult.getFieldErrors();
             List<String> message = new ArrayList<>();
@@ -54,15 +55,14 @@ public class BookController {
             }
             return message;
         } else {
-            service.updateItem(book);
-            return book;
+            service.updateItem(author);
+            return author;
         }
     }
 
-    @DeleteMapping("/books/{id}")
-    public String deleteBook(@PathVariable int id) {
+    @DeleteMapping("/authors/{id}")
+    public String deleteAuthor(@PathVariable int id) {
         service.deleteItem(id);
-        return "Book with id = " + id + " was deleted";
+        return "Author with id = " + id + " and his books were deleted";
     }
 }
-
