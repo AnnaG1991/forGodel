@@ -1,11 +1,12 @@
 package com.godeltech.gorodetskaya.task.dao.api;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface Dao<T> {
 
-    List<T> getAllItems();
+    Map<Integer, T> getAllItems();
 
     Optional<T> getItemById(int id);
 

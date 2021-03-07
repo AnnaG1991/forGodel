@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class AuthorController {
@@ -21,7 +22,7 @@ public class AuthorController {
     private Service<Author> service;
 
     @GetMapping("/authors")
-    public List<Author> getAllAuthors() {
+    public Map<Integer, Author> getAllAuthors() {
         return service.getAllItems();
     }
 

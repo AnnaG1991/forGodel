@@ -3,11 +3,14 @@ package com.godeltech.gorodetskaya.task.services.impl;
 import com.godeltech.gorodetskaya.task.dao.api.Dao;
 import com.godeltech.gorodetskaya.task.entity.Author;
 import com.godeltech.gorodetskaya.task.exception_handling.NoSuchEntityException;
+import com.godeltech.gorodetskaya.task.exception_handling.RepeatAddingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
-import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @org.springframework.stereotype.Service
 public class AuthorServiceImpl implements com.godeltech.gorodetskaya.task.services.api.Service<Author> {
@@ -21,7 +24,7 @@ public class AuthorServiceImpl implements com.godeltech.gorodetskaya.task.servic
 
 
     @Override
-    public List<Author> getAllItems() {
+    public Map<Integer, Author> getAllItems() {
         return dao.getAllItems();
     }
 
@@ -37,7 +40,11 @@ public class AuthorServiceImpl implements com.godeltech.gorodetskaya.task.servic
 
     @Override
     public Author addItem(Author author) {
-        return dao.addItem(author);
+        if (getAllItems().values().stream().noneMatch(element -> element.equals(author))) {
+            return dao.addItem(author);
+        } else {
+            throw new RepeatAddingException("Element has already been created");
+        }
     }
 
     @Override

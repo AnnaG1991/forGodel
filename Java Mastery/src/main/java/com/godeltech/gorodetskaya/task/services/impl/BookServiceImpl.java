@@ -1,12 +1,15 @@
 package com.godeltech.gorodetskaya.task.services.impl;
 
 import com.godeltech.gorodetskaya.task.dao.api.Dao;
+import com.godeltech.gorodetskaya.task.entity.Author;
 import com.godeltech.gorodetskaya.task.entity.Book;
 import com.godeltech.gorodetskaya.task.exception_handling.NoSuchEntityException;
+import com.godeltech.gorodetskaya.task.exception_handling.RepeatAddingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @org.springframework.stereotype.Service
@@ -16,8 +19,11 @@ public class BookServiceImpl implements com.godeltech.gorodetskaya.task.services
     @Qualifier("bookDaoImpl")
     private Dao<Book> dao;
 
+    @Autowired
+    private AuthorServiceImpl authorService;
+
     @Override
-    public List<Book> getAllItems() {
+    public Map<Integer, Book> getAllItems() {
         return dao.getAllItems();
     }
 
@@ -33,11 +39,17 @@ public class BookServiceImpl implements com.godeltech.gorodetskaya.task.services
 
     @Override
     public Book addItem(Book book) {
-        return dao.addItem(book);
+        if ((getAllItems().values().stream().noneMatch(element -> element.equals(book)))) {
+            book.getAuthors().forEach(author -> authorService.addItem(author));
+            return dao.addItem(book);
+        } else {
+            throw new RepeatAddingException("Element has already been created");
+        }
     }
 
     @Override
     public Book updateItem(Book book) {
+        book.getAuthors().forEach(author -> authorService.updateItem(author));
         return dao.updateItem(book);
     }
 

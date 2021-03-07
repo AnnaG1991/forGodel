@@ -1,10 +1,11 @@
 package com.godeltech.gorodetskaya.task.services.api;
 
 import java.util.List;
+import java.util.Map;
 
 public interface Service<T> {
 
-    List<T> getAllItems();
+    Map<Integer, T> getAllItems();
 
     T getItemById(int id);
 

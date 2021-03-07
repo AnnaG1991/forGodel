@@ -2,7 +2,7 @@ package com.godeltech.gorodetskaya.task.entity;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import java.util.*;
 
 public class Book {
     public Book() {
@@ -16,7 +16,7 @@ public class Book {
     @Max (value = 2021, message = "Please, enter the right year of publication")
     private String yearOfPublication;
 
-    private Author author;
+    private List<Author> authors;
 
     private String publisher;
 
@@ -44,19 +44,35 @@ public class Book {
         this.yearOfPublication = yearOfPublication;
     }
 
-    public Author getAuthor() {
-        return author;
+
+    public List<Author> getAuthors() {
+        return authors;
     }
 
-    public void setAuthor(Author author) {
-        this.author = author;
+    public void setAuthors (List<Author> authors) {
+        this.authors = authors;
     }
-
     public String getPublisher() {
         return publisher;
     }
 
     public void setPublisher(String publisher) {
         this.publisher = publisher;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Book book = (Book) o;
+        return id == book.id &&
+                Objects.equals(title, book.title) &&
+                Objects.equals(yearOfPublication, book.yearOfPublication) &&
+                Objects.equals(publisher, book.publisher);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, yearOfPublication, publisher);
     }
 }

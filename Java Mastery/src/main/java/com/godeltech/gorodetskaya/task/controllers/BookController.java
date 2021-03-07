@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class BookController {
@@ -20,7 +21,7 @@ public class BookController {
     private Service<Book> service;
 
     @GetMapping("/books")
-    public List<Book> getAllBooks() {
+    public Map<Integer, Book> getAllBooks() {
         return service.getAllItems();
     }
 

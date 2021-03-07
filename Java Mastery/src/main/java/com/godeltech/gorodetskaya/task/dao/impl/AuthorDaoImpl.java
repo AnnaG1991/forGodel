@@ -8,9 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Repository
 public class AuthorDaoImpl implements Dao<Author> {
@@ -19,8 +17,8 @@ public class AuthorDaoImpl implements Dao<Author> {
     DatabaseConnector connector;
 
     @Override
-    public List<Author> getAllItems() {
-        List<Author> catalog = new ArrayList<>();
+    public Map<Integer, Author> getAllItems() {
+        Map<Integer, Author> catalog = new HashMap<>();
         try (Connection connection = connector.getConnection();
              Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery("SELECT ID, NAME, SURNAME, DATE_OF_BIRTH, GENDER FROM AUTHOR");
@@ -31,7 +29,7 @@ public class AuthorDaoImpl implements Dao<Author> {
                 author.setSurname(resultSet.getString("SURNAME"));
                 author.setDateOfBirth(resultSet.getString("DATE_OF_BIRTH"));
                 author.setGender(Gender.lookUp(resultSet.getString("GENDER")));
-                catalog.add(author);
+                catalog.put(author.getId(), author);
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();

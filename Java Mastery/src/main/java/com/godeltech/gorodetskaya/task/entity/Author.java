@@ -2,18 +2,24 @@ package com.godeltech.gorodetskaya.task.entity;
 
 import com.godeltech.gorodetskaya.task.entity.enums.Gender;
 
-public class Author {
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import java.util.Objects;
 
+public class Author {
 
     private int id;
 
+    @NotBlank(message = "Please, enter name of the author")
     private String name;
 
+    @NotBlank(message = "Please, enter surname of the author")
     private String surname;
 
+    @Pattern(regexp = "\\d{2}\\.\\d{2}\\.\\d{4}", message = "Please enter the date of birth as dd.mm.yyyy")
     private String dateOfBirth;
 
-    private Gender gender; // нужно сделать енам??
+    private Gender gender;
 
     public Author() {
     }
@@ -25,6 +31,7 @@ public class Author {
     public void setId(int id) {
         this.id = id;
     }
+
     public String getName() {
         return name;
     }
@@ -55,5 +62,21 @@ public class Author {
 
     public void setGender(Gender gender) {
         this.gender = gender;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Author author = (Author) o;
+        return Objects.equals(name, author.name) &&
+                Objects.equals(surname, author.surname) &&
+                Objects.equals(dateOfBirth, author.dateOfBirth) &&
+                gender == author.gender;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, surname, dateOfBirth, gender);
     }
 }
