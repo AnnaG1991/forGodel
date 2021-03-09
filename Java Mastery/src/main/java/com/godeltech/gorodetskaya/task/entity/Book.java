@@ -2,9 +2,11 @@ package com.godeltech.gorodetskaya.task.entity;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
-import java.util.*;
+import java.util.List;
+import java.util.Objects;
 
 public class Book {
+
     public Book() {
     }
 
@@ -13,7 +15,7 @@ public class Book {
     @NotBlank(message = "Please, enter the title of the book")
     private String title;
 
-    @Max (value = 2021, message = "Please, enter the right year of publication")
+    @Max(value = 2021, message = "Please, enter the right year of publication")
     private String yearOfPublication;
 
     private List<Author> authors;
@@ -49,9 +51,10 @@ public class Book {
         return authors;
     }
 
-    public void setAuthors (List<Author> authors) {
+    public void setAuthors(List<Author> authors) {
         this.authors = authors;
     }
+
     public String getPublisher() {
         return publisher;
     }

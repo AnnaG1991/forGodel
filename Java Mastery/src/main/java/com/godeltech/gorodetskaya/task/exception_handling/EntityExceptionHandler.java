@@ -26,8 +26,7 @@ public class EntityExceptionHandler {
     @ExceptionHandler
     public ResponseEntity<EntityIncorrectData> handleRepeatAddingException(RepeatAddingException exception) {
         EntityIncorrectData data = new EntityIncorrectData();
-        data.setInfo("Element has already been created");
+        data.setInfo("Element has been already created");
         return new ResponseEntity<>(data, HttpStatus.BAD_REQUEST);
-
     }
 }

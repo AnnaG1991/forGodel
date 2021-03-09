@@ -1,7 +1,5 @@
 package com.godeltech.gorodetskaya.task.config;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.h2.tools.Server;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -16,8 +14,6 @@ import java.sql.SQLException;
 @Component
 @PropertySource("classpath:db.properties")
 public class DatabaseConnector {
-
-    private static final Logger LOG = LogManager.getLogger(DatabaseConnector.class);
 
     @Value("${db.driver}")
     private String driverName;
@@ -57,7 +53,6 @@ public class DatabaseConnector {
             Class.forName(driverName);
             server = Server.createTcpServer(tcp, tcpAllowOthers, tcpPort, port).start();
         } catch (SQLException | ClassNotFoundException e) {
-            LOG.error("error - ", e);
             e.printStackTrace();
         }
     }
@@ -67,7 +62,6 @@ public class DatabaseConnector {
         try {
             connection = DriverManager.getConnection(databaseURL + keeper, username, password);
         } catch (SQLException e) {
-            LOG.error("error - ", e);
             e.printStackTrace();
         }
         return connection;

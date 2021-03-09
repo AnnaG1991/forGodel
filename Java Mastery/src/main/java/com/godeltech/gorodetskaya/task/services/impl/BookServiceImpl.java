@@ -1,14 +1,12 @@
 package com.godeltech.gorodetskaya.task.services.impl;
 
 import com.godeltech.gorodetskaya.task.dao.api.Dao;
-import com.godeltech.gorodetskaya.task.entity.Author;
 import com.godeltech.gorodetskaya.task.entity.Book;
 import com.godeltech.gorodetskaya.task.exception_handling.NoSuchEntityException;
 import com.godeltech.gorodetskaya.task.exception_handling.RepeatAddingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 

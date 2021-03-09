@@ -9,8 +9,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 @org.springframework.stereotype.Service
 public class AuthorServiceImpl implements com.godeltech.gorodetskaya.task.services.api.Service<Author> {
@@ -59,4 +57,3 @@ public class AuthorServiceImpl implements com.godeltech.gorodetskaya.task.servic
         dao.deleteItem(id);
     }
 }
-

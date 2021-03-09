@@ -66,4 +66,3 @@ public class BookController {
         return "Book with id = " + id + " was deleted";
     }
 }
-

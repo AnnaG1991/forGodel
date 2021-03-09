@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 @Repository
 public class AuthorDaoImpl implements Dao<Author> {
@@ -41,7 +43,8 @@ public class AuthorDaoImpl implements Dao<Author> {
     public Optional<Author> getItemById(int id) {
         Author author = null;
         try (Connection connection = connector.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("SELECT NAME, SURNAME, DATE_OF_BIRTH, GENDER FROM AUTHOR WHERE ID=?")) {
+             PreparedStatement preparedStatement = connection.prepareStatement("SELECT NAME, SURNAME, DATE_OF_BIRTH," +
+                     " GENDER FROM AUTHOR WHERE ID=?")) {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -61,8 +64,10 @@ public class AuthorDaoImpl implements Dao<Author> {
     @Override
     public Author addItem(Author author) {
         try (Connection connection = connector.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO AUTHOR (NAME, SURNAME, DATE_OF_BIRTH, GENDER) VALUES (?, ?, ?, ?)");
-             PreparedStatement preparedStatementSelect = connection.prepareStatement("SELECT ID FROM AUTHOR WHERE SURNAME=?")) {
+             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO AUTHOR (NAME, SURNAME, " +
+                     "DATE_OF_BIRTH, GENDER) VALUES (?, ?, ?, ?)");
+             PreparedStatement preparedStatementSelect = connection.prepareStatement("SELECT ID FROM AUTHOR WHERE " +
+                     "SURNAME=?")) {
             preparedStatement.setString(1, author.getName());
             preparedStatement.setString(2, author.getSurname());
             preparedStatement.setString(3, author.getDateOfBirth());
@@ -82,8 +87,10 @@ public class AuthorDaoImpl implements Dao<Author> {
     @Override
     public Author updateItem(Author author) {
         try (Connection connection = connector.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE AUTHOR SET NAME=?, SURNAME=?, DATE_OF_BIRTH=?, GENDER=? WHERE ID=?");
-             PreparedStatement preparedStatementSelect = connection.prepareStatement("SELECT NAME, SURNAME, DATE_OF_BIRTH, GENDER FROM AUTHOR WHERE ID=?")) {
+             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE AUTHOR SET NAME=?, SURNAME=?," +
+                     " DATE_OF_BIRTH=?, GENDER=? WHERE ID=?");
+             PreparedStatement preparedStatementSelect = connection.prepareStatement("SELECT NAME, SURNAME, " +
+                     "DATE_OF_BIRTH, GENDER FROM AUTHOR WHERE ID=?")) {
             preparedStatement.setString(1, author.getName());
             preparedStatement.setString(2, author.getSurname());
             preparedStatement.setString(3, author.getDateOfBirth());

@@ -2,7 +2,6 @@ package com.godeltech.gorodetskaya.task.controllers;
 
 import com.godeltech.gorodetskaya.task.entity.Author;
 import com.godeltech.gorodetskaya.task.services.api.Service;
-;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.validation.BindingResult;
@@ -13,6 +12,7 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
 
 @RestController
 public class AuthorController {
